@@ -12,7 +12,11 @@ class Tweet(object):
 
 tweets = []
 
+lineCount = 0
 for line in infile:
+    lineCount += 1
+    print "twatting line " + str(lineCount) + "                     "#\r",
+    
     data = json.loads(line)
 
     punc=(",./;'?&-")
