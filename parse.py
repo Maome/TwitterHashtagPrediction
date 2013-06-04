@@ -18,3 +18,4 @@ for line in myfile:
                 outfile.write(line)
 
 outfile.close()
+myfile.close()
