@@ -1,6 +1,6 @@
 import json
 
-myfile = file("twitterdata.txt")
+myfile = file("datatweets")
 outfile = open('parsed.txt', 'r+')
 
 for line in myfile:
