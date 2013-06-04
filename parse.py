@@ -2,8 +2,6 @@ import json
 
 #https://stream.twitter.com/1.1/statuses/sample.json?language=en
 
-myfile = file("../temp.txt")
-outfile = open('../parsed.txt', 'r+')
 
 for line in myfile:
     data = json.loads(line)
