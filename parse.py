@@ -3,7 +3,7 @@ import json
 #https://stream.twitter.com/1.1/statuses/sample.json?language=en
 
 myfile = file("datatweets")
-outfile = open('parsed.txt', 'r+')
+outfile = open('parsed2.txt', 'r+')
 
 
 for line in myfile:
