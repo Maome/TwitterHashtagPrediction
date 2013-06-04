@@ -11,6 +11,11 @@ newTweet = newTweet.lower()
 newTweet = re.sub('[!@#\'$\.,-?\*]', '', newTweet)
 
 newTweet = newTweet.split()
+newTweetTemp = newTweet
+newTweet = []
+[newTweet.append(x) for x in newTweetTemp if x not in newTweet]
+
+#print newTweet
 
 suggestedTags = {}
 

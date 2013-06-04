@@ -33,7 +33,7 @@ def timerControl():
 
 tweetfile = open('rawtweet', 'a')
 
-url = "https://stream.twitter.com/1.1/statuses/sample.json"
+url = "https://stream.twitter.com/1.1/statuses/sample.json?language=en"
 
 authenticationHandler = urllib2.HTTPPasswordMgrWithDefaultRealm()
 authenticationHandler.add_password(None, url, "reillyjonemily" , "twatters")
