@@ -92,5 +92,9 @@ for word in wordDict.keys():
 #    print x
 
 
-for x in sorted(wordDict.iteritems(), key=operator.itemgetter(0)):
-    print x
+#for x in sorted(wordDict.iteritems(), key=operator.itemgetter(0)):
+#    print x
+
+#Dump dictionary to file
+with open('data.json', 'wb') as fp:
+    json.dump(wordDict, fp)
