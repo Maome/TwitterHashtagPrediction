@@ -31,6 +31,12 @@ def timerControl():
         return
     threading.Timer(2.0, lambda: timerControl()).start()
 
+tweetfile = open('rawtweet', 'r')
+for l in tweetfile:
+    print "Initializing: " + str(counter) + "            \r",
+    counter += 1
+tweetfile.close()
+
 tweetfile = open('rawtweet', 'a')
 
 url = "https://stream.twitter.com/1.1/statuses/sample.json?language=en"

@@ -12,10 +12,13 @@ class Tweet(object):
 
 tweets = []
 
+print "Loading pass..."
+
 lineCount = 0
 for line in infile:
     lineCount += 1
-    print "twatting line " + str(lineCount) + "                     \r",
+    print "\r",
+    print "loading line " + str(lineCount) + "                     ",
     
     data = json.loads(line)
 
@@ -46,9 +49,14 @@ for line in infile:
         hashtags[i] = hashtags[i]['text'].lower()
     tweets.append(Tweet(words, hashtags))
 
-print "Twatting tweets..."
+print ""
+print "Generating hashtag dictionary..."
 hashtagSupport = {}
+counter = 0;
 for twat in tweets:
+    counter += 1
+    print "\r",
+    print "Tweet #" + str(counter),
     #print twat.words
     #print twat.hashtags
     #print
@@ -63,27 +71,57 @@ for twat in tweets:
             hashtagSupport[ht] = 0
         hashtagSupport[ht] += 1
 
+print ""
 print "Removing hashtags with low support..."
 #clear hashtags with low support
 supportLimit = 20
+counter = 0;
 for ht in hashtagSupport.keys():
+    counter += 1
+    print "\r",
+    print "Hashtag #" + str(counter),
     if hashtagSupport[ht] < supportLimit:
         del hashtagSupport[ht]
 
 
     #for each ht compute support omg done already lol
-print "Reticulating hashtag splines... (this could take a while)"
+    
+print ""
+print "Improved reiculation algorithm... (this could still take a while)"
 wordDict = {}
-    #cout each tag-word pair
-for ht in hashtagSupport.keys():
-    for twat in tweets:
-        if ht in twat.hashtags:
+
+counter = 0;
+for twat in tweets:
+    counter += 1
+    print "\r",
+    print "Tweet #" + str(counter),
+    for ht in twat.hashtags:
+        if ht in hashtagSupport.keys():
             for word in twat.words:
                 if not (word in wordDict.keys()):
                     wordDict[word] = {}
                 if not (ht in wordDict[word].keys()):
                     wordDict[word][ht] = 0
                 wordDict[word][ht] += 1
+    
+#print ""
+#print "Reticulating hashtag splines... (this could take a while)"
+#wordDict = {}
+#    #cout each tag-word pair
+#passcounter = 0
+#for ht in hashtagSupport.keys():
+#    passcounter += 1
+#    counter = 0
+#    for twat in tweets:
+#        counter += 1
+#        print "Pass " + str(passcounter) + "/" + str(len(hashtagSupport)) + " tweet " + str(counter) + "                             \r",
+#        if ht in twat.hashtags:
+#            for word in twat.words:
+#                if not (word in wordDict.keys()):
+#                    wordDict[word] = {}
+#                if not (ht in wordDict[word].keys()):
+#                    wordDict[word][ht] = 0
+#                wordDict[word][ht] += 1
 
 #divide by support for confidence
 #remove tags for words below new confidence level
@@ -104,8 +142,8 @@ for word in wordDict.keys():
 #    print x
 
 
-for x in sorted(wordDict.iteritems(), key=operator.itemgetter(0)):
-    print x
+#for x in sorted(wordDict.iteritems(), key=operator.itemgetter(0)):
+#    print x
 
 #Dump dictionary to file
 with open('data.json', 'wb') as fp:
