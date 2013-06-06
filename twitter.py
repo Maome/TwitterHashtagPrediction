@@ -3,6 +3,12 @@ import re
 import operator
 from sets import Set
 
+
+supportLimit = 20
+confidenceLimit = 0.2
+
+
+
 infile = open('parsed.txt')
 
 class Tweet(object):
@@ -74,7 +80,6 @@ for twat in tweets:
 print ""
 print "Removing hashtags with low support..."
 #clear hashtags with low support
-supportLimit = 20
 counter = 0;
 for ht in hashtagSupport.keys():
     counter += 1
@@ -125,7 +130,6 @@ for twat in tweets:
 
 #divide by support for confidence
 #remove tags for words below new confidence level
-confidenceLimit = 0.2
 for word in wordDict.keys():
     for ht in wordDict[word].keys():
         wordDict[word][ht] = float( wordDict[word][ht]) / float(hashtagSupport[ht])

@@ -30,4 +30,4 @@ for word in newTweet:
             
 #print suggested tags in order
 for x in reversed(sorted(suggestedTags.iteritems(), key=operator.itemgetter(1))):
-    print x
+    print "%.2f #" % x[1] + x[0]
