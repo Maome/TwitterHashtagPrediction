@@ -4,12 +4,12 @@ import operator
 from sets import Set
 
 
-supportLimit = 20
-confidenceLimit = 0.2
+supportLimit = 40
+confidenceLimit = 0.045
 
 
 
-infile = open('parsed1.txt')
+infile = open('parsed.txt')
 
 class Tweet(object):
     def __init__(self, words, hashtags):
@@ -56,7 +56,7 @@ for line in infile:
     tweets.append(Tweet(words, hashtags))
 
 print ""
-print "Generating hashtag dictionary..."
+print "Generating rule dictionary..."
 wordSupport = {}
 counter = 0;
 for twat in tweets:
@@ -73,7 +73,7 @@ for twat in tweets:
     for word in twat.words:
         #print ht
         #print hashtagSet[ht]
-        if not(word in wordSupport.keys()):
+        if not(word in wordSupport):
             wordSupport[word] = 0
         wordSupport[word] += 1
 
@@ -102,14 +102,14 @@ for twat in tweets:
     print "\r",
     print "Tweet #" + str(counter),
     for word in twat.words:
-        if word in wordSupport.keys():
-            if not (word in wordDict.keys()):
+        if word in wordSupport:
+            if not (word in wordDict):
                 wordDict[word] = {}
             for ht in twat.hashtags:
-                if not (ht in wordDict[word].keys()):
+                if not (ht in wordDict[word]):
                     wordDict[word][ht] = 0
                 wordDict[word][ht] += 1.0 / wordSupport[word]
-    
+   
 print ""
 print "Pruning low confidence candidates"
 counter = 0
@@ -122,27 +122,6 @@ for word in wordDict.keys():
 	        del wordDict[word][ht]
 
 
-#print ""
-#print "Reticulating hashtag splines... (this could take a while)"
-#wordDict = {}
-#    #cout each tag-word pair
-#passcounter = 0
-#for ht in hashtagSupport.keys():
-#    passcounter += 1
-#    counter = 0
-#    for twat in tweets:
-#        counter += 1
-#        print "Pass " + str(passcounter) + "/" + str(len(hashtagSupport)) + " tweet " + str(counter) + "                             \r",
-#        if ht in twat.hashtags:
-#            for word in twat.words:
-#                if not (word in wordDict.keys()):
-#                    wordDict[word] = {}
-#                if not (ht in wordDict[word].keys()):
-#                    wordDict[word][ht] = 0
-#                wordDict[word][ht] += 1
-
-
-    #save in dictionary by word (wait idk about this one)
 
 #for x in sorted(hashtagSet.iteritems(), key=operator.itemgetter(1)):
 #    print x
