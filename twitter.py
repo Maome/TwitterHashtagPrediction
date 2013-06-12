@@ -9,7 +9,7 @@ confidenceLimit = 0.2
 
 
 
-infile = open('parsed.txt')
+infile = open('parsed1.txt')
 
 class Tweet(object):
     def __init__(self, words, hashtags):
@@ -57,7 +57,7 @@ for line in infile:
 
 print ""
 print "Generating hashtag dictionary..."
-hashtagSupport = {}
+wordSupport = {}
 counter = 0;
 for twat in tweets:
     counter += 1
@@ -70,29 +70,30 @@ for twat in tweets:
     #get list of hashtags
     #for hashtag in twat.hashtags:
      #   hashtagSet.add(hashtag)
-    for ht in twat.hashtags:
+    for word in twat.words:
         #print ht
         #print hashtagSet[ht]
-        if not(ht in hashtagSupport.keys()):
-            hashtagSupport[ht] = 0
-        hashtagSupport[ht] += 1
+        if not(word in wordSupport.keys()):
+            wordSupport[word] = 0
+        wordSupport[word] += 1
+
 
 print ""
-print "Removing hashtags with low support..."
-#clear hashtags with low support
-counter = 0;
-for ht in hashtagSupport.keys():
+print "Removing words with low support..."
+#clear words with low support
+counter = 0
+for word in wordSupport.keys():
     counter += 1
     print "\r",
-    print "Hashtag #" + str(counter),
-    if hashtagSupport[ht] < supportLimit:
-        del hashtagSupport[ht]
+    print "word #" + str(counter),
+    if wordSupport[word] < supportLimit:
+        del wordSupport[word]
 
 
-    #for each ht compute support omg done already lol
+    #for each word compute support omg done already lolol
     
 print ""
-print "Improved reiculation algorithm... (this could still take a while)"
+print "Improved spline reticulation algorithm... (this could still take a while)"
 wordDict = {}
 
 counter = 0;
@@ -100,15 +101,27 @@ for twat in tweets:
     counter += 1
     print "\r",
     print "Tweet #" + str(counter),
-    for ht in twat.hashtags:
-        if ht in hashtagSupport.keys():
-            for word in twat.words:
-                if not (word in wordDict.keys()):
-                    wordDict[word] = {}
+    for word in twat.words:
+        if word in wordSupport.keys():
+            if not (word in wordDict.keys()):
+                wordDict[word] = {}
+            for ht in twat.hashtags:
                 if not (ht in wordDict[word].keys()):
                     wordDict[word][ht] = 0
-                wordDict[word][ht] += 1
+                wordDict[word][ht] += 1.0 / wordSupport[word]
     
+print ""
+print "Pruning low confidence candidates"
+counter = 0
+for word in wordDict.keys():
+    counter += 1
+    print "\r",
+    print "Word #" + str(counter),
+    for ht in wordDict[word].keys():
+        if  wordDict[word][ht] < confidenceLimit:
+	        del wordDict[word][ht]
+
+
 #print ""
 #print "Reticulating hashtag splines... (this could take a while)"
 #wordDict = {}
@@ -127,17 +140,6 @@ for twat in tweets:
 #                if not (ht in wordDict[word].keys()):
 #                    wordDict[word][ht] = 0
 #                wordDict[word][ht] += 1
-
-#divide by support for confidence
-#remove tags for words below new confidence level
-for word in wordDict.keys():
-    for ht in wordDict[word].keys():
-        wordDict[word][ht] = float( wordDict[word][ht]) / float(hashtagSupport[ht])
-        if (wordDict[word][ht] < confidenceLimit):
-            del wordDict[word][ht]
-    if wordDict[word] == {}:
-        del wordDict[word]
-
 
 
     #save in dictionary by word (wait idk about this one)
