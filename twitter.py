@@ -9,7 +9,7 @@ import sys
 
 def removeNonAscii(s): return "".join(i for i in s if ord(i)<128)
 
-supportLimit = 5000#40
+supportLimit = 500#40
 confidenceLimit = 0.05#0.045
 
 
